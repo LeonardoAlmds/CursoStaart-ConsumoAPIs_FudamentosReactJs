@@ -1,20 +1,35 @@
 import userIcon from '../images/user.svg';
 import clockIcon from '../images/clock.svg';
 import emptyFolderIcon from '../images/empty-folder.svg';
+import cloudErrorIcon from '../images/cloud-error.svg'
+import loader from '../images/loader-primary.svg'
+import FeedStatus from './FeedStatus';
 
 import '../styles/Feed.css';
 
 export default function Feed(props) {
-  if (props.posts.length === 0) {
-    return (
-      <div className="feed-status">
-        <img src={emptyFolderIcon} alt="Empty folder" />
+  if (props.isLoading) {
+    return <img src={loader} alt="Loading" className='spin'/>
+  }
 
-        <h1>Não encontramos nada</h1>
-        <h2>
-          Parece que você e seus amigos não postaram nada. Comece a escrever uma nova história!
-        </h2>
-      </div>
+  if (props.hasError){
+    return( 
+      <FeedStatus 
+        image={cloudErrorIcon}
+        title='Algo deu errado.'
+        subtitle='Não foi possivel carregar seu feed. Tente novamente mais tarde.'
+      />
+    );
+  }
+
+
+  if (props.posts.length === 0) {
+    return( 
+      <FeedStatus 
+        image={emptyFolderIcon}
+        title='Não encontramos nada'
+        subtitle='Parece que você e seus amigos não postaram nada. Comece a escrever uma nova história!'
+      />
     );
   }
 
